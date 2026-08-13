@@ -1,0 +1,7 @@
+INK = "#1f2933"
+MUTED = "#6b7682"
+MUTED_BLUE_GREY = "#9bb4cf"
+LIGHT_GREY = "#c2c5c9"
+ACCENT_LIGHT = "#ef6bb2"
+MAGENTA = "#e6087f"
+LIGHT_PINK = "#f49ccb"
