@@ -1,0 +1,110 @@
+[project]
+name = "pmo-experiments"
+version = "1.0.0"
+description = "Finetuning and evaluation experiments for the PubMed-Ophtha dataset: comparing CLIP models across data sources for vision-language fundus models"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Verena Jasmin Hallitschke" },
+]
+keywords = ["clip", "vision-language", "ophthalmology", "fundus", "biomedical", "multimodal"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "click>=8.1",
+    "kaggle>=1.8.2",
+    "omegaconf>=2.3.0",
+    "tokenizers>=0.22.1",
+    "wandb>=0.23.0",
+    "torch>=2.9.1",
+    "torchvision>=0.24.1",
+    "scikit-learn>=1.8.0",
+    "pyarrow>=23.0.0",
+    "webdataset>=0.2.0",
+    "openpyxl>=3.1.5",
+    "xlrd>=2.0.2",
+    "rapidfuzz>=3.14.5",
+    "statsmodels==0.14.6",
+    "open-clip-torch[training] @ git+https://github.com/verena-hallitschke/open_clip@feature/add-text-augmentations",
+    "flair[datasets] @ git+https://github.com/verena-hallitschke/FLAIR.git@v0.1.0",
+]
+
+[project.optional-dependencies]
+plots = [
+    "glasbey>=0.3.0",
+    "matplotlib>=3.10.8",
+    "opentsne>=1.0.4",
+    "seaborn>=0.13.2",
+]
+
+[project.urls]
+Repository = "https://github.com/berenslab/pmo-experiments"
+
+[project.scripts]
+pmo_experiments = "pmo_experiments.cli:cli"
+
+[dependency-groups]
+dev = [
+    "detect-secrets>=1.5.0",
+    "pre-commit>=4.0.1",
+    "ruff>=0.14.5,<0.15",
+    "pydoclint>=0.5.9",
+    "pyright>=1.1.389",
+    "pip>=25.3",
+    "ipython>=9.7.0",
+    "jupyter>=1.1.1",
+    "pandas-stubs>=3.0.0.260204",
+]
+
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.setuptools.package-data]
+"pmo_experiments.datasets" = ["contaminated_panels.json"]
+
+[tool.pyright]
+include = ["./src"]
+struct = true
+exclude = [
+    "**/.venv",
+    "**/__pycache__",
+    "**/.*",
+]
+venvPath = "."
+venv = ".venv"
+reportPrivateImportUsage = "warning"
+
+[tool.pydoclint]
+check-return-types = true
+style = 'google'
+allow-init-docstring = true
+
+[tool.ruff.lint]
+select = [
+    "D",
+    "ARG",
+    'E',
+    'F',
+    'W',
+    'A',
+    'PLC',
+    'PLE',
+    'PLW',
+    'I',
+] # D for docstring conventions, ARG for undocumented arguments.
+ignore = ["D212", "D203"]
+fixable = ["ALL"]
+unfixable = []
+external = ["DOC"]
