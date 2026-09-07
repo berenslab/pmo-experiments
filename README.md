@@ -177,7 +177,7 @@ Using the `flair` dataset still requires downloading and preparing FLAIR's sub-d
 
 ```bibtex
 @misc{hallitschke2026scientific,
-      title={Scientific Domain Knowledge Improves Vision-Language Fundus Models}, 
+      title={Scientific Domain Knowledge Improves Vision-Language Fundus Models},
       author={Verena Jasmin Hallitschke and Carsten Eickhoff and Philipp Berens},
       year={2026},
       eprint={2605.02720},
