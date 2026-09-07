@@ -5,11 +5,20 @@
 [![Spell Checking](https://github.com/berenslab/pmo-experiments/actions/workflows/spell_checking.yml/badge.svg)](https://github.com/berenslab/pmo-experiments/actions/workflows/spell_checking.yml)
 [![Static Type Checking](https://github.com/berenslab/pmo-experiments/actions/workflows/static_type_checking.yml/badge.svg)](https://github.com/berenslab/pmo-experiments/actions/workflows/static_type_checking.yml)
 
-CLIP finetuning, evaluation, and plotting pipeline for **"Leveraging Scientific Domain Knowledge for Vision-Language Fundus Models"**. This is one of three repositories behind the paper:
+CLIP finetuning, evaluation, and plotting pipeline for **"Scientific Domain Knowledge Improves Vision-Language Fundus Models"**. See [Resources](#resources) for the other repositories and released artifacts behind the paper.
 
-- [`pubmed-ophtha`](https://github.com/berenslab/pubmed-ophtha): the PubMed-Ophtha dataset generation pipeline
-- [`pmo-parser`](https://github.com/berenslab/pmo-parser): the PDF parser used to build the dataset
-- **This repo** (`pmo-experiments`): finetune and evaluate CLIP models on the compared data sources
+## Resources
+
+|                       |                                                                                                             |
+| --------------------- | ----------------------------------------------------------------------------------------------------------- |
+| Preprint              | [arXiv:2605.02720](https://arxiv.org/abs/2605.02720)                                                        |
+| Dataset               | [pubmed-ophtha/PubMed-Ophtha](https://huggingface.co/datasets/pubmed-ophtha/PubMed-Ophtha)                  |
+| Dataset pipeline      | [berenslab/pubmed-ophtha](https://github.com/berenslab/pubmed-ophtha)                                       |
+| PDF parser            | [berenslab/pmo-parser](https://github.com/berenslab/pmo-parser)                                             |
+| CLIP experiments      | *This repository*                                                                                           |
+| Figure-parsing models | [pubmed-ophtha/detection-models](https://huggingface.co/pubmed-ophtha/detection-models)                     |
+| PubMed-Ophtha CLIP    | [PubMed-Ophtha CLIP Models](https://huggingface.co/collections/pubmed-ophtha/pubmed-ophtha-clip-models)     |
+| Paper checkpoints     | [pubmed-ophtha/experiment-checkpoints](https://huggingface.co/pubmed-ophtha/experiment-checkpoints)         |
 
 This README focuses on this repo's own pipeline; see the linked repos for how the dataset itself is built.
 
@@ -17,6 +26,7 @@ This README focuses on this repo's own pipeline; see the linked repos for how th
 
 ## Contents
 
+- [Resources](#resources)
 - [Results: linear probing](#results-linear-probing)
 - [Installation](#installation)
 - [Quickstart: training on PubMed-Ophtha](#quickstart-training-on-pubmed-ophtha)
@@ -45,6 +55,13 @@ AMD: age-related macular degeneration, HR: hypertensive retinopathy, AH: asteroi
 
 ‡ FLAIR's training data directly overlaps the classification labels for AMD, Glaucoma, Myopia, HR, AH, and MS, so those scores reflect in-domain classification rather than generalization to unseen labels.
 
+These are the paper's numbers, averaged over three seeds and trained on the standard
+PubMed-Ophtha split. The single checkpoints released in
+[PubMed-Ophtha CLIP Models](https://huggingface.co/collections/pubmed-ophtha/pubmed-ophtha-clip-models)
+were trained on the larger `pubmed_ophtha_full` split and score slightly higher; the checkpoints
+behind the table below are in
+[pubmed-ophtha/experiment-checkpoints](https://huggingface.co/pubmed-ophtha/experiment-checkpoints).
+
 ## Installation
 
 Dependencies are managed with [uv](https://docs.astral.sh/uv/) (**recommended**):
@@ -70,7 +87,7 @@ Training always reports metrics to [Weights & Biases](https://wandb.ai/) (`--rep
 
 1. **Get the data.** `pubmed_ophtha.parquet` is downloaded automatically from [Hugging Face](https://huggingface.co/datasets/pubmed-ophtha/PubMed-Ophtha) the first time it's needed (i.e. on your first `train`/`eval run`), if it isn't already present. It's saved to `pubmed_ophtha.parquet` under `DATASET.DATASET_PATH`, which defaults to `datasets/pubmed_ophtha`. This requires internet access on that first run. Use this same directory for every `pubmed_ophtha_*` variant you train on (see [`docs/datasets.md`](docs/datasets.md)); they all read the identical parquet file. If you'd rather stage the file yourself (e.g. for offline use), download it manually and place it at that same path to skip the automatic download.
 
-   As described in the manuscript, for some figures the panel images and subcaptions are not available upon download due to license restrictions. These fields can be populated using the download scripts in the [`pubmed-ophtha`](https://github.com/berenslab/pubmed-ophtha) repo.
+   As described in the paper, for some figures the panel images and subcaptions are not available upon download due to license restrictions. These fields can be populated using the download scripts in the [`pubmed-ophtha`](https://github.com/berenslab/pubmed-ophtha) repo.
 
 2. **Generate a config:**
    ```bash
@@ -125,9 +142,16 @@ pmo_experiments plots tables
 
 ## Model weights
 
-<!-- TODO: decide and fill in a host (e.g. Hugging Face) for the released finetuned checkpoints before publication. -->
+All checkpoints behind the paper's figures and tables — five vision encoder architectures ×
+five training data sources × three seeds, plus the PubMed-Ophtha variants — are released at
+[pubmed-ophtha/experiment-checkpoints](https://huggingface.co/pubmed-ophtha/experiment-checkpoints),
+with a `MANIFEST.csv` mapping each path to its architecture, training data source, seed, and mean
+AUROC per evaluation setting.
 
-Finetuned model checkpoints will be released at **TODO**.
+For the three curated single models intended for downstream use, see
+[PubMed-Ophtha CLIP Models](https://huggingface.co/collections/pubmed-ophtha/pubmed-ophtha-clip-models).
+These were trained on the larger `pubmed_ophtha_full` split rather than the paper's split — use the
+experiment checkpoints to reproduce the paper.
 
 ## Development
 
@@ -151,14 +175,15 @@ Using the `flair` dataset still requires downloading and preparing FLAIR's sub-d
 
 ## Citation
 
-<!-- TODO: fill in once published -->
-
 ```bibtex
-@article{hallitschke2026leveraging,
-  title   = {Leveraging Scientific Domain Knowledge for Vision-Language Fundus Models},
-  author  = {Hallitschke, Verena Jasmin and Eickhoff, Carsten and Berens, Philipp},
-  year    = {2026},
-  journal = {TODO},
+@misc{hallitschke2026scientific,
+      title={Scientific Domain Knowledge Improves Vision-Language Fundus Models}, 
+      author={Verena Jasmin Hallitschke and Carsten Eickhoff and Philipp Berens},
+      year={2026},
+      eprint={2605.02720},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2605.02720}, 
 }
 ```
 
