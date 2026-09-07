@@ -183,7 +183,7 @@ Using the `flair` dataset still requires downloading and preparing FLAIR's sub-d
       eprint={2605.02720},
       archivePrefix={arXiv},
       primaryClass={cs.CV},
-      url={https://arxiv.org/abs/2605.02720}, 
+      url={https://arxiv.org/abs/2605.02720},
 }
 ```
 
