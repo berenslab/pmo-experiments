@@ -5,7 +5,8 @@
 [![Spell Checking](https://github.com/berenslab/pmo-experiments/actions/workflows/spell_checking.yml/badge.svg)](https://github.com/berenslab/pmo-experiments/actions/workflows/spell_checking.yml)
 [![Static Type Checking](https://github.com/berenslab/pmo-experiments/actions/workflows/static_type_checking.yml/badge.svg)](https://github.com/berenslab/pmo-experiments/actions/workflows/static_type_checking.yml)
 
-CLIP finetuning, evaluation, and plotting pipeline for **"Scientific Domain Knowledge Improves Vision-Language Fundus Models"**. See [Resources](#resources) for the other repositories and released artifacts behind the paper.
+CLIP finetuning, evaluation, and plotting pipeline for **"Scientific Domain Knowledge Improves Vision-Language Fundus Models"**.
+See [Resources](#resources) for the other repositories and released artifacts behind the paper.
 
 ## Resources
 
